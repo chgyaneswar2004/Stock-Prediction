@@ -28,12 +28,20 @@ Stock-Sense is a web application that predicts stock trends using a deep learnin
    ```
 
 4. **Run the application:**
+   You can run the application using either Gunicorn (on Linux/macOS) or Waitress (on Windows).
+
+   **Using Gunicorn:**
    ```bash
    gunicorn app:app
    ```
 
+   **Using Waitress:**
+   ```bash
+   waitress-serve --host 127.0.0.1 --port 5000 app:app
+   ```
+
 5. **Access the application:**
-   Open your web browser and go to `http://127.0.0.1:8000`.
+   Open your web browser and go to `http://127.0.0.1:8000` (for Gunicorn) or `http://127.0.0.1:5000` (for Waitress).
 
 ## Usage
 
@@ -51,3 +59,5 @@ Stock-Sense is a web application that predicts stock trends using a deep learnin
 - `yfinance`
 - `scikit-learn`
 - `gunicorn`
+- `waitress`
+- `Jinja2`

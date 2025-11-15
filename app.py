@@ -7,6 +7,11 @@ import datetime as dt
 import yfinance as yf
 from sklearn.preprocessing import MinMaxScaler
 import os
+import ssl
+
+# Disable SSL certificate verification
+ssl._create_default_https_context = ssl._create_unverified_context
+yf.pdr_override()
 
 plt.style.use("fivethirtyeight")
 
@@ -14,7 +19,7 @@ app = Flask(__name__)
 
 # Load the model
 try:
-    model = load_model('stock_dl_model.h5')
+    model = load_model('stock_dl_model.h5', compile=False)
 except Exception as e:
     model = None
     print(f"Error loading model: {e}")
@@ -32,7 +37,9 @@ def index():
         try:
             df = yf.download(stock, start=start, end=end)
             if df.empty:
-                raise ValueError("No data found for the given stock ticker.")
+                raise ValueError("No data found. The ticker may be invalid or delisted.")
+        except yf.shared.YFTzMissingError:
+            return render_template('index.html', error=f"Failed to get ticker '{stock}'. The ticker may be invalid or delisted.")
         except Exception as e:
             return render_template('index.html', error=f"Error fetching data: {e}")
 

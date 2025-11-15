@@ -6,3 +6,5 @@ flask
 yfinance
 scikit-learn
 gunicorn
+waitress
+Jinja2
